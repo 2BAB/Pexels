@@ -21,9 +21,13 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -51,8 +55,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
 import com.linroid.pexels.api.model.Photo
+import com.linroid.pexels.screen.ai.AiScreen
 import org.jetbrains.compose.resources.stringResource
 import pexels.composeapp.generated.resources.Res
 import pexels.composeapp.generated.resources.app_name
@@ -155,11 +162,22 @@ class CuratedScreen : Screen {
 
 @Composable
 private fun PexelsAppBar() {
+	val navigator = LocalNavigator.currentOrThrow
 	Surface(shadowElevation = 4.dp) {
 		TopAppBar(
 			title = {
 				Text(stringResource(Res.string.app_name))
 			},
+			actions = {
+				IconButton(onClick = {
+					navigator.push(AiScreen())
+				}) {
+					Icon(
+						imageVector = Icons.Filled.Face,
+						contentDescription = "AI Screen"
+					)
+				}
+			}
 		)
 	}
 }
