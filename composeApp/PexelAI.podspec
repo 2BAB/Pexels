@@ -10,6 +10,7 @@ Pod::Spec.new do |spec|
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '15'
     spec.dependency 'MediaPipeTasksGenAI', '0.10.14'
+    spec.dependency 'MediaPipeTasksGenAIC', '0.10.14'
                 
     if !Dir.exist?('build/cocoapods/framework/composeApp.framework') || Dir.empty?('build/cocoapods/framework/composeApp.framework')
         raise "
