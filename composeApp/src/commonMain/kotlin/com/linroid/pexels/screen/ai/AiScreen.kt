@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -14,9 +15,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.linroid.pexels.screen.feed.FeedModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 class AiScreen : Screen {
@@ -25,6 +28,7 @@ class AiScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+        val aiViewModel = rememberScreenModel { AIViewModel() }
         Column {
             TopAppBar(
                 title = {
@@ -40,7 +44,14 @@ class AiScreen : Screen {
                 modifier = Modifier.fillMaxSize()
                     .background(Color.White)
             ) {
-                Text("Hello AI Screen")
+                Column {
+                    Text("Hello AI Screen")
+                    Button(onClick = {
+                        aiViewModel.generateResponse("")
+                    }, content = {
+                        Text("Generate Response")
+                    })
+                }
             }
         }
     }

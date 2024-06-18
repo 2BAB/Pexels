@@ -16,7 +16,7 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
 }
 
-applyKtorWasmWorkaround(libs.versions.ktor.get())
+//applyKtorWasmWorkaround(libs.versions.ktor.get())
 
 kotlin {
     androidTarget {
@@ -39,13 +39,13 @@ kotlin {
         }
     }
 
-    jvm()
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-        binaries.executable()
-    }
+//    jvm()
+//
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        browser()
+//        binaries.executable()
+//    }
 
     listOf(
         iosX64(),
@@ -55,6 +55,9 @@ kotlin {
         it.binaries.framework {
             baseName = "PexelAI"
             isStatic = false
+        }
+        it.binaries.all {
+            linkerOpts("-framework", "MediaPipeTasksGenAI", "-F/Users/2bab/Desktop/Pexels/iosApp/Pods/MediaPipeTasksGenAI/frameworks/MediaPipeTasksGenAI.xcframework")
         }
     }
 
@@ -71,10 +74,11 @@ kotlin {
 //        pod("FirebaseAuth") {
 //            version = "10.16.0"
 //        }
-//        pod("MediaPipeTasksGenAI") {
-//            version = "0.10.14"
-//            extraOpts += listOf("-compiler-option", "-fmodules")
-//        }
+        pod("MediaPipeTasksGenAI") {
+            version = "0.10.14"
+            extraOpts += listOf("-compiler-option", "-fmodules")
+        }
+
     }
 
     sourceSets {
@@ -115,16 +119,17 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kstore)
             implementation(libs.kstore.file)
+            implementation(libs.mediapipe.genai.android)
         }
 
-        jvmMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutines.swing)
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.kstore)
-            implementation(libs.kstore.file)
-            implementation(libs.appdirs)
-        }
+//        jvmMain.dependencies {
+//            implementation(compose.desktop.currentOs)
+//            implementation(libs.kotlinx.coroutines.swing)
+//            implementation(libs.ktor.client.okhttp)
+//            implementation(libs.kstore)
+//            implementation(libs.kstore.file)
+//            implementation(libs.appdirs)
+//        }
 
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -172,34 +177,34 @@ android {
     }
 }
 
-compose.desktop {
-    application {
-        mainClass = "MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "Pexels"
-            packageVersion = "1.0.0"
-            buildTypes.release.proguard {
-                configurationFiles.from("rules.pro")
-            }
-        }
-    }
-}
+//compose.desktop {
+//    application {
+//        mainClass = "MainKt"
+//
+//        nativeDistributions {
+//            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+//            packageName = "Pexels"
+//            packageVersion = "1.0.0"
+//            buildTypes.release.proguard {
+//                configurationFiles.from("rules.pro")
+//            }
+//        }
+//    }
+//}
 
 // https://youtrack.jetbrains.com/issue/KTOR-5587
-fun Project.applyKtorWasmWorkaround(version: String) {
-    configurations.all {
-        if (name.startsWith("wasmJs")) {
-            resolutionStrategy.eachDependency {
-                if (requested.group.startsWith("io.ktor") &&
-                    requested.name.startsWith("ktor-client-")) {
-                    useVersion(version)
-                }
-            }
-        }
-    }
-}
+//fun Project.applyKtorWasmWorkaround(version: String) {
+//    configurations.all {
+//        if (name.startsWith("wasmJs")) {
+//            resolutionStrategy.eachDependency {
+//                if (requested.group.startsWith("io.ktor") &&
+//                    requested.name.startsWith("ktor-client-")) {
+//                    useVersion(version)
+//                }
+//            }
+//        }
+//    }
+//}
 
 buildConfig {
     // BuildConfig configuration here.
