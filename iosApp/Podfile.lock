@@ -1,0 +1,16 @@
+PODS:
+  - PexelAI (1.0.1)
+
+DEPENDENCIES:
+  - PexelAI (from `../composeApp`)
+
+EXTERNAL SOURCES:
+  PexelAI:
+    :path: "../composeApp"
+
+SPEC CHECKSUMS:
+  PexelAI: e4d4a2a2d9f6d666e60b6916746f4682be625fe3
+
+PODFILE CHECKSUM: 8909e4fe75c7726eac73976720f7effd868a2597
+
+COCOAPODS: 1.15.2

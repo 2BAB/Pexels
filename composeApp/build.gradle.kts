@@ -8,6 +8,7 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.multiplatform)
+    alias(libs.plugins.cocoapods)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.application)
@@ -52,9 +53,28 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
+            baseName = "PexelAI"
+            isStatic = false
         }
+    }
+
+    cocoapods {
+        name = "PexelAI"
+
+        version = "1.0.1"
+        ios.deploymentTarget = "15"
+
+        summary = "Pexel-AI"
+        homepage = "https://github.com/JetBrains/kotlin"
+        podfile = project.file("../iosApp/Podfile")
+
+//        pod("FirebaseAuth") {
+//            version = "10.16.0"
+//        }
+//        pod("MediaPipeTasksGenAI") {
+//            version = "0.10.14"
+//            extraOpts += listOf("-compiler-option", "-fmodules")
+//        }
     }
 
     sourceSets {

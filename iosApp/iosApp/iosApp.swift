@@ -1,5 +1,5 @@
 import UIKit
-import ComposeApp
+import composeApp
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
