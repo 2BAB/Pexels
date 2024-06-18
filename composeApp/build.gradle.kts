@@ -47,7 +47,7 @@ kotlin {
 //    }
 
     listOf(
-//        iosX64(),
+        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -60,7 +60,7 @@ kotlin {
             linkerOpts("-rpath", "/usr/lib/swift")
             val aicPathSuffix = when (this.target.konanTarget) {
                 KonanTarget.IOS_ARM64 -> "ios-arm64"
-                KonanTarget.IOS_SIMULATOR_ARM64 -> "ios-arm64_x86_64-simulator"
+                KonanTarget.IOS_X64, KonanTarget.IOS_SIMULATOR_ARM64 -> "ios-arm64_x86_64-simulator"
                 else -> null
             }
             aicPathSuffix?.let { p ->
@@ -72,7 +72,7 @@ kotlin {
                 }
                 val swiftPathSuffix = when (this.target.konanTarget) {
                     KonanTarget.IOS_ARM64 -> "iphoneos"
-                    KonanTarget.IOS_SIMULATOR_ARM64 -> "iphonesimulator"
+                    KonanTarget.IOS_X64, KonanTarget.IOS_SIMULATOR_ARM64 -> "iphonesimulator"
                     else -> null
                 }
                 swiftPathSuffix?.let { sp ->
