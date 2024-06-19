@@ -1,5 +1,6 @@
 package com.linroid.pexels.screen.ai
 
+import cocoapods.MediaPipeTasksGenAI.MPPLLMInference
 import cocoapods.MediaPipeTasksGenAI.MPPLLMInferenceOptions
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSBundle
@@ -11,18 +12,17 @@ actual class LLMOperatorFactory actual constructor() {
 @OptIn(ExperimentalForeignApi::class)
 class LLMOperatorIOSImpl: LLMOperator {
 
-//    private val inference: MPPLLMInference
+    private val inference: MPPLLMInference
     init {
         val modelPath = NSBundle.mainBundle.pathForResource("gemma-2b-it-gpu-int4",  "bin")
 
-        val options = MPPLLMInferenceOptions() // error： Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld invocation reported
-
+        val options = MPPLLMInferenceOptions("")
 //        options.setModelPath(modelPath!!)
-//        options.setMaxTokens(2048)
-//        options.setTopk(40)
-//        options.setTemperature(0.8f)
-//        options.setRandomSeed(102)
-//        inference = MPPLLMInference(options, null)
+        options.setMaxTokens(2048)
+        options.setTopk(40)
+        options.setTemperature(0.8f)
+        options.setRandomSeed(102)
+        inference = MPPLLMInference(options, null)
     }
     override fun sizeInTokens(text: String): Int {
         return 0
