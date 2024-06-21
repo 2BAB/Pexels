@@ -19,7 +19,6 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.linroid.pexels.screen.feed.FeedModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 class AiScreen : Screen {
@@ -27,7 +26,6 @@ class AiScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
         val aiViewModel = rememberScreenModel { AIViewModel() }
         Column {
             TopAppBar(
@@ -35,6 +33,7 @@ class AiScreen : Screen {
                     Text("AI Samples")
                 },
                 navigationIcon = {
+                    val navigator = LocalNavigator.currentOrThrow
                     IconButton(onClick = { navigator.pop() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, null)
                     }
@@ -47,7 +46,7 @@ class AiScreen : Screen {
                 Column {
                     Text("Hello AI Screen")
                     Button(onClick = {
-                        aiViewModel.generateResponse("")
+                        aiViewModel.generateResponse("hello")
                     }, content = {
                         Text("Generate Response")
                     })

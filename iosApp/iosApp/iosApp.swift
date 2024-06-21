@@ -1,4 +1,5 @@
 import UIKit
+import MediaPipeTasksGenAI
 import composeApp
 
 @main
@@ -10,7 +11,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        MainKt.onStartup()
+        
+        do {
+            let delegate = try LLMOperatorSwiftImpl()
+            MainKt.onStartup(llmInferenceDelegate: delegate)
+        } catch let error {
+            print("Mediapipe GenAI Task SDK failed to init: \(error)")
+        }
+        
+        
+        
         if let window = window {
             window.rootViewController = MainKt.MainViewController()
             window.makeKeyAndVisible()
