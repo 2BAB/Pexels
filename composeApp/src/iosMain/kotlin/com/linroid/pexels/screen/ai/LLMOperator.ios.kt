@@ -1,7 +1,15 @@
 package com.linroid.pexels.screen.ai
 
-actual class LLMOperatorFactory(private val llmInferenceDelegate: LLMOperator) {
-    actual fun create(): LLMOperator = llmInferenceDelegate // LLMOperatorIOSImpl()
+import kotlinx.atomicfu.atomic
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+
+actual class LLMOperatorFactory(private val llmInferenceDelegate: LLMOperatorSwift) {
+    actual fun create(): LLMOperator = LLMOperatorIOSImpl(llmInferenceDelegate)
 }
 
 /*
@@ -38,3 +46,61 @@ class LLMOperatorIOSImpl: LLMOperator {
 
 }
 */
+
+
+class LLMOperatorIOSImpl(private val delegate: LLMOperatorSwift) : LLMOperator {
+
+    private val coroutineScope = MainScope()
+    private val initialized = atomic<Boolean>(false)
+
+    override suspend fun initModel(): String? {
+        if (initialized.value) {
+            return null
+        }
+        return try {
+            delegate.loadModel()
+            initialized.value = true
+            null
+        } catch (e: Exception) {
+            e.message
+        }
+    }
+
+    override fun sizeInTokens(text: String): Int = -1 // TODO
+
+    override suspend fun generateResponse(inputText: String): String {
+        if (initialized.value.not()) {
+            throw IllegalStateException("LLMInference is not initialized properly")
+        }
+        return delegate.generateResponse(inputText)
+    }
+
+
+    override suspend fun generateResponseAsync(inputText: String): Flow<Pair<String, Boolean>> {
+        if (initialized.value.not()) {
+            throw IllegalStateException("LLMInference is not initialized properly")
+        }
+        val partialResultsFlow = MutableSharedFlow<Pair<String, Boolean>>(
+            extraBufferCapacity = 1,
+            onBufferOverflow = BufferOverflow.DROP_OLDEST
+        )
+        delegate.generateResponseAsync(inputText, { partialResponse ->
+            partialResultsFlow.tryEmit(partialResponse to false)
+        }, { completion ->
+            partialResultsFlow.tryEmit(completion to true)
+        })
+        return partialResultsFlow.asSharedFlow()
+    }
+
+}
+
+interface LLMOperatorSwift {
+    suspend fun loadModel()
+    fun sizeInTokens(text: String): Int
+    suspend fun generateResponse(inputText: String): String
+    suspend fun generateResponseAsync(
+        inputText: String,
+        progress: (partialResponse: String) -> Unit,
+        completion: (completeResponse: String) -> Unit
+    )
+}

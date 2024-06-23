@@ -3,6 +3,7 @@
 package com.linroid.pexels
 
 import platform.Foundation.NSURL
+import platform.Foundation.NSUUID
 import platform.UIKit.UIApplication
 
 internal actual object Platform {
@@ -11,3 +12,5 @@ internal actual object Platform {
         UIApplication.sharedApplication.openURL(nsUrl)
     }
 }
+
+actual fun randomUUID(): String = NSUUID().UUIDString()

@@ -5,3 +5,5 @@ package com.linroid.pexels
 internal expect object Platform {
     fun openUrl(url: String)
 }
+
+expect fun randomUUID(): String

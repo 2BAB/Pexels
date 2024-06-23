@@ -4,6 +4,7 @@ package com.linroid.pexels
 
 import android.content.Intent
 import android.net.Uri
+import java.util.UUID
 
 internal actual object Platform {
     actual fun openUrl(url: String) {
@@ -16,3 +17,5 @@ internal actual object Platform {
         AndroidApp.INSTANCE.startActivity(intent)
     }
 }
+
+actual fun randomUUID(): String = UUID.randomUUID().toString()

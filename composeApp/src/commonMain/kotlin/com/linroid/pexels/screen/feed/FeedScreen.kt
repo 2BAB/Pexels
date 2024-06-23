@@ -63,6 +63,7 @@ import com.linroid.pexels.screen.ai.AiScreen
 import org.jetbrains.compose.resources.stringResource
 import pexels.composeapp.generated.resources.Res
 import pexels.composeapp.generated.resources.app_name
+import pexels.composeapp.generated.resources.button_back
 import kotlin.math.absoluteValue
 
 val avatarColors =
@@ -166,7 +167,7 @@ private fun PexelsAppBar() {
 	Surface(shadowElevation = 4.dp) {
 		TopAppBar(
 			title = {
-				Text(stringResource(Res.string.app_name))
+				Text(stringResource(Res.string.button_back))
 			},
 			actions = {
 				IconButton(onClick = {

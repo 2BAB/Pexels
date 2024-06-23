@@ -19,8 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Mediapipe GenAI Task SDK failed to init: \(error)")
         }
         
-        
-        
         if let window = window {
             window.rootViewController = MainKt.MainViewController()
             window.makeKeyAndVisible()

@@ -10,12 +10,13 @@ import MediaPipeTasksGenAI
 import composeApp
 
 
-class LLMOperatorSwiftImpl: LLMOperator {
+class LLMOperatorSwiftImpl: LLMOperatorSwift {
+    
     let errorTag = "Mediapipe-LLM-Tasks-iOS: "
-    let llmInference: LlmInference
+    var llmInference: LlmInference?
     
     
-    init() throws {
+    func loadModel() async throws {
         let path = Bundle.main.path(forResource: "gemma-2b-it-gpu-int4", ofType: "bin")!
         let llmOptions =  LlmInference.Options(modelPath: path)
         
@@ -23,12 +24,12 @@ class LLMOperatorSwiftImpl: LLMOperator {
     }
     
     func generateResponse(inputText: String) async throws -> String {
-        return try llmInference.generateResponse(inputText: inputText)
+        return try llmInference!.generateResponse(inputText: inputText)
     }
     
     func generateResponseAsync(inputText: String, progress: @escaping (String) -> Void, completion: @escaping (String) -> Void) async throws {
         var partialResult = ""
-        try llmInference.generateResponseAsync(inputText: inputText) { partialResponse, error in
+        try llmInference!.generateResponseAsync(inputText: inputText) { partialResponse, error in
             // progress
             if let e = error {
                 print("\(self.errorTag) \(e)")
@@ -37,7 +38,7 @@ class LLMOperatorSwiftImpl: LLMOperator {
             }
             if let partial = partialResponse {
                 partialResult += partial
-                progress(partialResult.trimmingCharacters(in: .whitespacesAndNewlines))
+                progress(partial)
             }
         } completion: {
             completion(partialResult.trimmingCharacters(in: .whitespacesAndNewlines))
