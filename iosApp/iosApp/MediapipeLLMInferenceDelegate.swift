@@ -16,8 +16,8 @@ class LLMOperatorSwiftImpl: LLMOperatorSwift {
     var llmInference: LlmInference?
     
     
-    func loadModel() async throws {
-        let path = Bundle.main.path(forResource: "gemma-2b-it-gpu-int4", ofType: "bin")!
+    func loadModel(modelName: String) async throws {
+        let path = Bundle.main.path(forResource: modelName, ofType: "bin")!
         let llmOptions =  LlmInference.Options(modelPath: path)
         
         llmInference = try LlmInference(options: llmOptions)
@@ -28,7 +28,6 @@ class LLMOperatorSwiftImpl: LLMOperatorSwift {
     }
     
     func generateResponseAsync(inputText: String, progress: @escaping (String) -> Void, completion: @escaping (String) -> Void) async throws {
-        var partialResult = ""
         try llmInference!.generateResponseAsync(inputText: inputText) { partialResponse, error in
             // progress
             if let e = error {
@@ -37,12 +36,10 @@ class LLMOperatorSwiftImpl: LLMOperatorSwift {
                 return
             }
             if let partial = partialResponse {
-                partialResult += partial
                 progress(partial)
             }
         } completion: {
-            completion(partialResult.trimmingCharacters(in: .whitespacesAndNewlines))
-            partialResult = ""
+            completion("")
         }
     }
     

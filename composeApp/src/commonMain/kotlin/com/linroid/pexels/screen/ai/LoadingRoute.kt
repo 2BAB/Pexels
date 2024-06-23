@@ -3,6 +3,7 @@ package com.linroid.pexels.screen.ai
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -18,7 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.github.aakira.napier.Napier
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.stringResource
 import pexels.composeapp.generated.resources.Res
 import pexels.composeapp.generated.resources.loading_model
@@ -30,21 +34,28 @@ internal fun LoadingRoute(
 ) {
     var errorMessage by remember { mutableStateOf("") }
 
-    if (errorMessage != "") {
-        ErrorMessage(errorMessage)
-    } else {
-        LoadingIndicator()
+    Box( modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center) {
+        if (errorMessage != "") {
+            ErrorMessage(errorMessage)
+        } else {
+            LoadingIndicator()
+        }
     }
 
-    LaunchedEffect(Unit, MainScope()) {
+    LaunchedEffect(Unit) {
         // Create the LlmInference in a separate thread
-        val res = aiViewModel.initLlmModel()
-        if (res == null) {
-            onModelLoaded()
-            Napier.i("model is loaded")
-        } else {
-            errorMessage = "Model loaded Error: $res"
-            Napier.e("model failed to load: $res")
+        withContext(Dispatchers.Default) {
+            val res = aiViewModel.initLlmModel()
+            if (res == null) {
+                withContext(Dispatchers.Main) {
+                    onModelLoaded()
+                }
+                Napier.i("model is loaded")
+            } else {
+                errorMessage = "Model loaded Error: $res"
+                Napier.e("model failed to load: $res")
+            }
         }
     }
 }

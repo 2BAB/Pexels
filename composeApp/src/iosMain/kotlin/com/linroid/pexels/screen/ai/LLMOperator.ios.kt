@@ -1,7 +1,6 @@
 package com.linroid.pexels.screen.ai
 
 import kotlinx.atomicfu.atomic
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -50,7 +49,6 @@ class LLMOperatorIOSImpl: LLMOperator {
 
 class LLMOperatorIOSImpl(private val delegate: LLMOperatorSwift) : LLMOperator {
 
-    private val coroutineScope = MainScope()
     private val initialized = atomic<Boolean>(false)
 
     override suspend fun initModel(): String? {
@@ -58,7 +56,7 @@ class LLMOperatorIOSImpl(private val delegate: LLMOperatorSwift) : LLMOperator {
             return null
         }
         return try {
-            delegate.loadModel()
+            delegate.loadModel(MODEL_NAME)
             initialized.value = true
             null
         } catch (e: Exception) {
@@ -74,7 +72,6 @@ class LLMOperatorIOSImpl(private val delegate: LLMOperatorSwift) : LLMOperator {
         }
         return delegate.generateResponse(inputText)
     }
-
 
     override suspend fun generateResponseAsync(inputText: String): Flow<Pair<String, Boolean>> {
         if (initialized.value.not()) {
@@ -95,7 +92,7 @@ class LLMOperatorIOSImpl(private val delegate: LLMOperatorSwift) : LLMOperator {
 }
 
 interface LLMOperatorSwift {
-    suspend fun loadModel()
+    suspend fun loadModel(modelName: String)
     fun sizeInTokens(text: String): Int
     suspend fun generateResponse(inputText: String): String
     suspend fun generateResponseAsync(

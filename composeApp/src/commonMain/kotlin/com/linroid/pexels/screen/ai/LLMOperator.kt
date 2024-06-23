@@ -2,6 +2,12 @@ package com.linroid.pexels.screen.ai
 
 import kotlinx.coroutines.flow.Flow
 
+// We suppose the extension is always .bin ,
+// so we don't pass it to the program.
+const val MODEL_NAME = "gemma-2b-it-gpu-int4" // gemma-2b-sci
+
+const val MODEL_EXTENSION = "bin"
+
 expect class LLMOperatorFactory {
     fun create(): LLMOperator
 }

@@ -1,6 +1,7 @@
 package com.linroid.pexels.screen.ai
 
 import androidx.compose.runtime.toMutableStateList
+import io.github.aakira.napier.Napier
 
 const val USER_PREFIX = "user"
 const val MODEL_PREFIX = "model"
@@ -107,8 +108,11 @@ class GemmaUiState(
         val index = _messages.indexOfFirst { it.id == id }
         if (index != -1) {
             val newText = if (done) {
+                if (text.isNotBlank()) { // error throws (iOS)
+                    Napier.e(text)
+                }
                 // Append the Suffix when model is done generating the response
-                text + END_TURN
+                _messages[index].message + END_TURN
             } else {
                 // Append the text
                 _messages[index].message + text

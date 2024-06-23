@@ -5,6 +5,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.linroid.pexels.screen.ai.LLMOperatorFactory
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 class AndroidApp : Application() {
@@ -14,19 +18,30 @@ class AndroidApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Startup.run(androidModule)
+        Startup.run { koinApp ->
+            koinApp.apply {
+                modules(androidModule)
+                androidContext(this@AndroidApp)
+            }
+        }
         INSTANCE = this
     }
 }
 
 val androidModule = module {
-
+    single { LLMOperatorFactory(androidContext()) }
 }
 
 class AppActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent { App() }
+        setContent {
+            CompositionLocalProvider(
+                LocalLifecycleOwner provides this
+            ) {
+                App()
+            }
+        }
     }
 }

@@ -3,8 +3,6 @@ package com.linroid.pexels.screen.ai
 import cafe.adriel.voyager.core.model.ScreenModel
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

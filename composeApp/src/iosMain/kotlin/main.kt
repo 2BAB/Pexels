@@ -10,7 +10,11 @@ import platform.UIKit.UIViewController
 fun MainViewController(): UIViewController = ComposeUIViewController { App() }
 
 fun onStartup(llmInferenceDelegate: LLMOperatorSwift) {
-    Startup.run(module {
-        single { LLMOperatorFactory(llmInferenceDelegate) }
-    })
+    Startup.run { koinApp ->
+        koinApp.apply {
+            modules(module {
+                single { LLMOperatorFactory(llmInferenceDelegate) }
+            })
+        }
+    }
 }
