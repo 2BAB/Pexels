@@ -108,11 +108,8 @@ class GemmaUiState(
         val index = _messages.indexOfFirst { it.id == id }
         if (index != -1) {
             val newText = if (done) {
-                if (text.isNotBlank()) { // error throws (iOS)
-                    Napier.e(text)
-                }
                 // Append the Suffix when model is done generating the response
-                _messages[index].message + END_TURN
+                _messages[index].message + text + END_TURN
             } else {
                 // Append the text
                 _messages[index].message + text

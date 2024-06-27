@@ -167,7 +167,7 @@ private fun PexelsAppBar() {
 	Surface(shadowElevation = 4.dp) {
 		TopAppBar(
 			title = {
-				Text(stringResource(Res.string.button_back))
+				Text(stringResource(Res.string.app_name))
 			},
 			actions = {
 				IconButton(onClick = {

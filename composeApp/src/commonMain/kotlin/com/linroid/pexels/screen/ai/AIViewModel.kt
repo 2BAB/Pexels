@@ -18,7 +18,9 @@ class AIViewModel : ScreenModel, KoinComponent {
 
     suspend fun initLlmModel() = llmOperator.initModel()
 
-    suspend fun generateResponseAsync(message: String) = llmOperator.generateResponseAsync(message)
+    suspend fun generateResponse(message: String) = llmOperator.generateResponse(message)
+
+    suspend fun generateResponseInflow(message: String) = llmOperator.generateResponseAsync(message)
 
 //    fun generateResponse(message: String) {
 //        coroutineScope.launch {

@@ -19,6 +19,8 @@ class LLMOperatorSwiftImpl: LLMOperatorSwift {
     func loadModel(modelName: String) async throws {
         let path = Bundle.main.path(forResource: modelName, ofType: "bin")!
         let llmOptions =  LlmInference.Options(modelPath: path)
+        llmOptions.maxTokens = 4096
+        llmOptions.temperature = 0.9
         
         llmInference = try LlmInference(options: llmOptions)
     }
