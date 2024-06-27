@@ -24,6 +24,7 @@ kotlin {
                 compilerOptions {
                     jvmTarget.set(JvmTarget.JVM_1_8)
                     freeCompilerArgs.add("-Xjdk-release=${JavaVersion.VERSION_1_8}")
+                    // freeCompilerArgs.add("-XXLanguage:+ExplicitBackingFields")
                 }
             }
         }
