@@ -9,11 +9,17 @@ Take below steps to set up the repo:
 1. Follow the original Pexels's README to setup the KMP dependencies including JDK 17, Android Studio (with Android SDK), XCode (with iOS SDK) and Cocoapods. 
 2. Download 2 models, [gemma-1.1-2b-it-gpu-int4](https://www.kaggle.com/models/google/gemma/tfLite/gemma-1.1-2b-it-gpu-int4) and [gemma-1.1-2b-it-cpu-int8](https://www.kaggle.com/models/google/gemma/tfLite/gemma-1.1-2b-it-cpu-int8), from Kaggle respectively.
 3. Execute below command to push models to Android device respectively (must be physical device) ```adb push /the/path/to/gemma-2b-it-gpu-int4.bin data/local/tmp/llm/```
-4. Move models to iOS project respectively (drag the model to the "iosApp" target and select "copy reference")
-5. You can run the Android target just like normal application, and iOS target within the Android Studio via Kotlin Multiplatform IDE Plugin or the XCode running button. The sample enables Android and iOS only since the llm inference of mediapipe is only available on Android/iOS/Web, you can implement the web version by yourself.
+4. Move models to iOS project respectively by dragging the model to the "iosApp" target and select "create folder reference".
 
 ![ai-ios-setup-1](./screenshots/ai-ios-setup-1.png)
 ![ai-ios-setup-2](./screenshots/ai-ios-setup-2.png)
+
+5. Open the project via Android Studio, create a ```local.properties```, put the android sdk path and cocoapods executable path.
+```
+sdk.dir=/Users/xxxx/Library/Android/sdk
+kotlin.apple.cocoapods.bin=/opt/homebrew/lib/ruby/gems/3.3.0/bin/pod
+```
+6. You can run the Android target just like normal application, and iOS target within the Android Studio via Kotlin Multiplatform IDE Plugin or the XCode running button. The sample enables Android and iOS only since the llm inference of mediapipe is only available on Android/iOS/Web, you can implement the web version by yourself.
 
 # Pexels
 A multiplatform client for [Pexels](https://www.pexels.com/) photos, powered by [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)

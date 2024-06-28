@@ -6,6 +6,7 @@ import kotlinx.coroutines.cancel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
+// 7.
 class AIViewModel : ScreenModel, KoinComponent {
 
     private val coroutineScope = MainScope()

@@ -11,6 +11,8 @@ import com.linroid.pexels.screen.ai.LLMOperatorFactory
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
+
+
 class AndroidApp : Application() {
     companion object {
         lateinit var INSTANCE: AndroidApp

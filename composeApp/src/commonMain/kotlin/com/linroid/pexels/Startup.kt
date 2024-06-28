@@ -8,6 +8,7 @@ import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
+// 3.
 object Startup {
 	fun run(platformSpecifiedKoinInitBlock: (koin: KoinApplication) -> Unit) {
 		Napier.base(DebugAntilog())

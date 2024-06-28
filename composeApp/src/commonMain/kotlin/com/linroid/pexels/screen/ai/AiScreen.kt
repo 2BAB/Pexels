@@ -33,6 +33,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import pexels.composeapp.generated.resources.Res
 import pexels.composeapp.generated.resources.force_json
 
+// 6.
 class AiScreen : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class)

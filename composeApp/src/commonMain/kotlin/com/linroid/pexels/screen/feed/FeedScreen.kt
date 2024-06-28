@@ -81,6 +81,7 @@ val avatarColors =
 
 data class ViewingPhotoData(val photo: Photo, val boundsInFeed: Rect)
 
+// 4.
 class CuratedScreen : Screen {
 	@Composable
 	override fun Content() {

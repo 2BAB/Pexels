@@ -126,7 +126,7 @@ fun PhotoViewer(
 			val offset = remember { Animatable(Offset(0f, 0f), Offset.VectorConverter) }
 			Box(
 				Modifier.fillMaxSize()
-					.pointerInput(Unit) {
+					.pointerInput(Unit) { // 4.
 						if (isOriginalLoaded) {
 							detectTapGestures(onDoubleTap = {
 								val fitScale = if (photoAspectRatio > boxAspectRatio) {
@@ -183,7 +183,7 @@ fun PhotoViewer(
 							IntOffset(photoInitOffset.x.toInt(), photoInitOffset.y.toInt())
 						}
 					}
-					.graphicsLayer(
+					.graphicsLayer( // 4.
 						scaleX = scale.value, scaleY = scale.value,
 						translationX = offset.value.x, translationY = offset.value.y
 					)
