@@ -170,7 +170,7 @@ private fun PexelsAppBar() {
 			title = {
 				Text(stringResource(Res.string.app_name))
 			},
-			actions = {
+			actions = {  // 5.
 				IconButton(onClick = {
 					navigator.push(AiScreen())
 				}) {

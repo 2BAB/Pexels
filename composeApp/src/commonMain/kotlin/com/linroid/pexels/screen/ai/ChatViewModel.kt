@@ -17,6 +17,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlin.math.max
 
+// 9.
 class ChatViewModel(
     private val aiViewModel: AIViewModel
 ) : ScreenModel {

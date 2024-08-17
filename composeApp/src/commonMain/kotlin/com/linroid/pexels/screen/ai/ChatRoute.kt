@@ -43,6 +43,7 @@ import pexels.composeapp.generated.resources.chat_label
 import pexels.composeapp.generated.resources.model_label
 import pexels.composeapp.generated.resources.user_label
 
+// 10.
 @Composable
 internal fun ChatRoute(
     chatViewModel: ChatViewModel

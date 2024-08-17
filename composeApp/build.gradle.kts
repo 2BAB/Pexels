@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 import org.jetbrains.kotlin.konan.target.KonanTarget
 
 plugins {
-    alias(libs.plugins.multiplatform) // 2
+    alias(libs.plugins.multiplatform) // 2.
     alias(libs.plugins.cocoapods)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)

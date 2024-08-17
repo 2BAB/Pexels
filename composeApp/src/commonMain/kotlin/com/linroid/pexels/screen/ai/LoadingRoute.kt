@@ -34,7 +34,7 @@ internal fun LoadingRoute(
 ) {
     var errorMessage by remember { mutableStateOf("") }
 
-    Box( modifier = Modifier.fillMaxSize(),
+    Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center) {
         if (errorMessage != "") {
             ErrorMessage(errorMessage)
